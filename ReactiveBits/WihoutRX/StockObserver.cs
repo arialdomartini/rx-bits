@@ -9,19 +9,24 @@ namespace ReactiveBits.WihoutRX
         private const decimal MaxChangeRatio = 0.1m;
         private readonly Dictionary<string, StockInfo> _stockInfos = new Dictionary<string, StockInfo>();
         private readonly StockObservable _stockObservable;
+        private readonly object _stockTickLock = new object();
 
         public StockObserver(StockObservable stockObservable)
         {
             _stockObservable = stockObservable;
+
+            // Subscribe to the event
             _stockObservable.PriceChanged += OnPriceChanged;
         }
 
         public void Dispose()
         {
+            // Unsubscribe to the event
             _stockObservable.PriceChanged -= OnPriceChanged;
             _stockInfos.Clear();
         }
 
+        // This is the PriceChanged Event Handler
         private void OnPriceChanged(object sender, PriceChangedEventData priceChangedEventData)
         {
             var quoteSymbol = priceChangedEventData.QuoteSymbol;
@@ -29,10 +34,19 @@ namespace ReactiveBits.WihoutRX
 
             var newStockInfo = new StockInfo(quoteSymbol, newPrice);
 
-            if (HasNeverBeenProcessed(quoteSymbol))
-                SaveNew(newStockInfo);
-            else
-                Process(newStockInfo);
+            OnPriceChanged(newStockInfo);
+        }
+
+        // The critical section
+        private void OnPriceChanged(StockInfo newStockInfo)
+        {
+            lock (_stockTickLock)
+            {
+                if (HasNeverBeenProcessed(newStockInfo.Symbol))
+                    SaveNew(newStockInfo);
+                else
+                    Process(newStockInfo);
+            }
         }
 
         private void Process(StockInfo newStockInfo)
