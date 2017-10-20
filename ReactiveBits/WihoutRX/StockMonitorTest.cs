@@ -20,9 +20,9 @@ namespace ReactiveBits.WihoutRX
             using (TextWriter writer = new StringWriter())
             {
                 Console.SetOut(writer);
-                var stockTicker = new StockTicker();
+                var stockTicker = new StockObservable();
 
-                var sut = new StockMonitor(stockTicker);
+                var sut = new StockObserver(stockTicker);
 
                 stockTicker.Notify("yahoo", 100);
                 stockTicker.Notify("amazon", 100);

@@ -70,8 +70,8 @@
     <Compile Include="WihoutRX\StockMonitorTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WihoutRX\StockInfo.cs" />
-    <Compile Include="WihoutRX\StockMonitor.cs" />
-    <Compile Include="WihoutRX\StockTicker.cs" />
+    <Compile Include="WihoutRX\StockObserver.cs" />
+    <Compile Include="WihoutRX\StockObservable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
