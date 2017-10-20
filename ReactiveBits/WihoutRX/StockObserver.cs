@@ -27,18 +27,50 @@ namespace ReactiveBits.WihoutRX
             var quoteSymbol = priceChangedEventData.QuoteSymbol;
             var newPrice = priceChangedEventData.NewPrice;
 
-            if (!_stockInfos.ContainsKey(quoteSymbol))
-                _stockInfos.Add(quoteSymbol, new StockInfo(quoteSymbol, newPrice));
+            var newStockInfo = new StockInfo(quoteSymbol, newPrice);
 
+            if (HasNeverBeenProcessed(quoteSymbol))
+                SaveNew(newStockInfo);
+            else
+                Process(newStockInfo);
+        }
+
+        private void Process(StockInfo newStockInfo)
+        {
+            var quoteSymbol = newStockInfo.Symbol;
             var previousStockInfo = _stockInfos[quoteSymbol];
+
             var oldPrice = previousStockInfo.Price;
+            var newPrice = newStockInfo.Price;
 
             var priceDifference = newPrice - oldPrice;
-            decimal changeRatio = Math.Abs(priceDifference / oldPrice);
+            var changeRatio = Math.Abs(priceDifference / oldPrice);
 
             if (changeRatio > MaxChangeRatio)
                 Console.WriteLine(
                     $"Stock: {quoteSymbol} has changed price from {oldPrice} to {newPrice}, that is a ratio of {changeRatio}");
+
+            Update(newStockInfo);
+        }
+
+        private bool HasNeverBeenProcessed(string quoteSymbol)
+        {
+            return !HasAlreadyBeenProcessed(quoteSymbol);
+        }
+
+        private bool HasAlreadyBeenProcessed(string quoteSymbol)
+        {
+            return _stockInfos.ContainsKey(quoteSymbol);
+        }
+
+        private StockInfo Update(StockInfo stockInfo)
+        {
+            return _stockInfos[stockInfo.Symbol] = stockInfo;
+        }
+
+        private void SaveNew(StockInfo stockInfo)
+        {
+            _stockInfos.Add(stockInfo.Symbol, stockInfo);
         }
     }
 }
