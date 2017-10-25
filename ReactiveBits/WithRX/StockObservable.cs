@@ -1,6 +1,6 @@
 using System;
 
-namespace ReactiveBits.WihoutRX
+namespace ReactiveBits.WithRX
 {
     // It represents the source of stock information
     internal class StockObservable
@@ -23,13 +23,13 @@ namespace ReactiveBits.WihoutRX
     // Holds the information about the stock change, notified by StockObservable
     internal class PriceChangedEventData
     {
-        public PriceChangedEventData(string quoteSymbol, decimal newPrice)
+        public PriceChangedEventData(string quoteSymbol, decimal price)
         {
             QuoteSymbol = quoteSymbol;
-            NewPrice = newPrice;
+            Price = price;
         }
 
         public string QuoteSymbol { get; set; }
-        public decimal NewPrice { get; set; }
+        public decimal Price { get; set; }
     }
 }

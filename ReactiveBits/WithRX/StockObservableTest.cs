@@ -3,17 +3,10 @@ using System.IO;
 using FluentAssertions;
 using Xunit;
 
-namespace ReactiveBits.WihoutRX
+namespace ReactiveBits.WithRX
 {
-    public class StockMonitorTest : IDisposable
+    public class StockObservableTest
     {
-        private readonly TextWriter _originalOut;
-
-        public StockMonitorTest()
-        {
-            _originalOut = Console.Out;
-        }
-
         [Fact]
         public void should_process_ticks()
         {
@@ -22,7 +15,7 @@ namespace ReactiveBits.WihoutRX
                 Console.SetOut(writer);
                 var stockTicker = new StockObservable();
 
-                var sut = new StockObserver(stockTicker);
+                var sut = new StockObserver(stockTicker, writer);
 
                 stockTicker.Notify("yahoo", 100);
                 stockTicker.Notify("amazon", 100);
@@ -33,11 +26,6 @@ namespace ReactiveBits.WihoutRX
                 writer.ToString().Should().Contain("Stock: yahoo has changed price from 100 to 200, that is a ratio of 1");
                 writer.ToString().Should().Contain("Stock: amazon has changed price from 100 to 125, that is a ratio of 0.25");
             }
-        }
-
-        public void Dispose()
-        {
-            Console.SetOut(_originalOut);
         }
     }
 }
