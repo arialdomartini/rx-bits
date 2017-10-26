@@ -1,4 +1,4 @@
-namespace ReactiveBits.WihoutRX
+namespace ReactiveBits.WithoutRX
 {
     internal class StockInfo
     {
