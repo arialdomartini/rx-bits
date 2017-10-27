@@ -57,6 +57,5 @@ namespace ReactiveBits.Delegates.Examples.StrategyPattern
 
             words.Should().BeEquivalentTo("short", "long enough", "very very very long");
         }
-
     }
 }
