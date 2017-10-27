@@ -155,11 +155,22 @@ namespace ReactiveBits.Delegates
         public void Actions_are_anonymous_delegates_returning_void()
         {
             var sb = new StringBuilder();
-            var ints = new int[] {1, 2, 3, 5, 8};
+            var ints = new[] {1, 2, 3, 5, 8};
 
             ForEachint(ints, i => sb.Append(i));
 
             sb.ToString().Should().Be("12358");
+        }
+
+        [Fact]
+        public void Actions_delegates_are_generic()
+        {
+            var sb = new StringBuilder();
+
+            ForEachint(new[] {ConsoleColor.Red, ConsoleColor.Black}, delegate(ConsoleColor i) { sb.Append(i); });
+            ForEachint(new[] {"a", "b", "c", "d", "e"}, delegate(string i) { sb.Append(i); });
+
+            sb.ToString().Should().Be("RedBlackabcde");
         }
     }
 }
