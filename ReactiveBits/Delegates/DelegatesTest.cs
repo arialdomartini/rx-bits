@@ -29,5 +29,18 @@ namespace ReactiveBits.Delegates
 
             actual.Should().BeTrue();
         }
+
+        [Fact]
+        public void anonymous_delegates_can_be_defined_inline()
+        {
+            var areSimilar = new AreSimilar();
+
+            var actual = areSimilar.Check(
+                new List<string> {"one", "two", "three"},
+                new List<string> {"uno", "due", "e tre"},
+                delegate(string s1, string s2) { return s1.Length == s2.Length; });
+
+            actual.Should().BeTrue();
+        }
     }
 }
