@@ -26,5 +26,37 @@ namespace ReactiveBits.Delegates.Examples.StrategyPattern
 
             words.Should().BeEquivalentTo("short", "long enough", "very very very long");
         }
+
+
+        class GenericComparer<T> : IComparer<T>
+        {
+            private readonly Func<T, T, int> _comparer;
+
+            public GenericComparer(Func<T, T, int> comparer)
+            {
+                _comparer = comparer;
+            }
+
+            public int Compare(T x, T y)
+            {
+                return _comparer(x, y);
+            }
+        }
+
+        [Fact]
+        public void strategy_pattern_implemented_with_lambdas()
+        {
+            var words = new[] {"short", "very very very long", "long enough"};
+
+            words.ToList().Sort(
+                new GenericComparer<string>( (x, y) => 
+                    {
+                        if (x.Length == y.Length) return 0;
+                        return x.Length < y.Length ? 1 : 2;
+                    }));
+
+            words.Should().BeEquivalentTo("short", "long enough", "very very very long");
+        }
+
     }
 }
