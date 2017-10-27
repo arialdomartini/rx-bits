@@ -21,7 +21,7 @@ namespace ReactiveBits.Delegates
         [Fact]
         public void delegates_can_be_passed_as_first_order_functions()
         {
-            var areSimilar = new AreSimilar();
+            var areSimilar = new AreSimilarWithNamedDelegate();
 
             var actual = areSimilar.Check(
                 new List<string> {"one", "two", "three"},
@@ -34,7 +34,7 @@ namespace ReactiveBits.Delegates
         [Fact]
         public void anonymous_delegates_can_be_defined_inline()
         {
-            var areSimilar = new AreSimilar();
+            var areSimilar = new AreSimilarWithNamedDelegate();
 
             var actual = areSimilar.Check(
                 new List<string> {"one", "two", "three"},
@@ -90,12 +90,12 @@ namespace ReactiveBits.Delegates
         [Fact]
         public void lambda_expressions_are_an_alternative_syntax_for_anonymous_delegates()
         {
-            var areSimilar = new AreSimilar();
+            var areSimilar = new AreSimilarWithNamedDelegate();
 
             var actual = areSimilar.Check(
                 new List<string> {"one", "two", "three"},
                 new List<string> {"uno", "due", "e tre"},
-                (s1, s2) => s1.Length == s2.Length );
+                (s1, s2) => s1.Length == s2.Length);
 
             actual.Should().BeTrue();
         }
@@ -112,6 +112,42 @@ namespace ReactiveBits.Delegates
             }
 
             func().Should().Be("first value");
+        }
+
+        [Fact]
+        public void Func_can_be_used_instead_of_named_delegates()
+        {
+
+            // This uses a method with the signature
+            //
+            //   public bool Check(IEnumerable<string> s1, IEnumerable<string> s2, 
+            //      Func<string, string, bool> compare)
+            // 
+            // rather than
+            //
+            //   public bool Check(IEnumerable<string> s1, IEnumerable<string> s2, 
+            //      ComparisonDelegate compare)
+            //
+            // so there's no need ot define ComparisonDelegate as
+            //
+            //   public delegate bool ComparisonDelegate(string a, string b);
+            //
+            // since
+            //
+            //   Func<T1, T2, TResult>
+            //
+            // is defined as
+            //
+            //   public delegate TResult Func<int T1, in T2, out TResult>(T1 arg1, T2 arg2) 
+
+            var areSimilar = new AreSimilarWithFunc();
+
+            var actual = areSimilar.Check(
+                new List<string> {"one", "two", "three"},
+                new List<string> {"uno", "due", "e tre"},
+                StringComparators.CompareLength);
+
+            actual.Should().BeTrue();
         }
     }
 }
