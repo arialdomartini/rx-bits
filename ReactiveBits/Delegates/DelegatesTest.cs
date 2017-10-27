@@ -87,5 +87,31 @@ namespace ReactiveBits.Delegates
             func1().Should().Be("second value");
         }
 
+        [Fact]
+        public void lambda_expressions_are_an_alternative_syntax_for_anonymous_delegates()
+        {
+            var areSimilar = new AreSimilar();
+
+            var actual = areSimilar.Check(
+                new List<string> {"one", "two", "three"},
+                new List<string> {"uno", "due", "e tre"},
+                (s1, s2) => s1.Length == s2.Length );
+
+            actual.Should().BeTrue();
+        }
+
+        [Fact]
+        public void lambda_expressions_can_be_closures_too()
+        {
+            Func<string> func = null;
+
+            {
+                const string variable = "first value";
+
+                func = () => variable;
+            }
+
+            func().Should().Be("first value");
+        }
     }
 }
