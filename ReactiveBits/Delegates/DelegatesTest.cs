@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using FluentAssertions;
 using Xunit;
 using static ReactiveBits.Delegates.Delegates;
@@ -148,6 +149,17 @@ namespace ReactiveBits.Delegates
                 StringComparators.CompareLength);
 
             actual.Should().BeTrue();
+        }
+
+        [Fact]
+        public void Actions_are_anonymous_delegates_returning_void()
+        {
+            var sb = new StringBuilder();
+            var ints = new int[] {1, 2, 3, 5, 8};
+
+            ForEachint(ints, i => sb.Append(i));
+
+            sb.ToString().Should().Be("12358");
         }
     }
 }

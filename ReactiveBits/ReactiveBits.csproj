@@ -92,6 +92,7 @@
     <Compile Include="Delegates\AreSimilarWithNamedDelegate.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Delegates\DelegatesTest.cs" />
+    <Compile Include="Delegates\StringComparators.cs" />
     <Compile Include="WithoutRX\StockInfo.cs" />
     <Compile Include="WithoutRX\StockMonitorTest.cs" />
     <Compile Include="WithoutRX\StockObservable.cs" />

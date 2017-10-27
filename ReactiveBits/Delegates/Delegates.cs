@@ -1,4 +1,5 @@
-﻿using System.Runtime.ExceptionServices;
+﻿using System;
+using System.Linq;
 
 namespace ReactiveBits.Delegates
 {
@@ -6,18 +7,10 @@ namespace ReactiveBits.Delegates
     {
         // A delegate is a type that represents references to methods
         public delegate bool ComparisonDelegate(string a, string b);
-    }
 
-    public class StringComparators
-    {
-        public static bool CompareContent(string a, string b)
+        public static void ForEachint(int[] ints, Action<int> func)
         {
-            return a == b;
-        }
-
-        public static bool CompareLength(string a, string b)
-        {
-            return a.Length == b.Length;
+            ints.ToList().ForEach(func);
         }
     }
 }
