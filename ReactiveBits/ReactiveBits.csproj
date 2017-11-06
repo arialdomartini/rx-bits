@@ -94,6 +94,7 @@
     <Compile Include="Delegates\DelegatesTest.cs" />
     <Compile Include="FunctionalProgramming\AnonymousTypes\AnonymousTypesExamples.cs" />
     <Compile Include="FunctionalProgramming\DeferredExecution\DeferredExecutionExamples.cs" />
+    <Compile Include="FunctionalProgramming\DeferredExecution\YieldExamples.cs" />
     <Compile Include="FunctionalProgramming\ExtensionMethods\ExtensionMethodsTests.cs" />
     <Compile Include="FunctionalProgramming\LazyLoading\HeavyClass.cs" />
     <Compile Include="FunctionalProgramming\LazyLoading\DeferredInvocationTest.cs" />
