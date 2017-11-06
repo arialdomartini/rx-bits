@@ -59,3 +59,7 @@ namespace ReactiveBits.Delegates.Examples.StrategyPattern
         }
     }
 }
+
+namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
+{
+}

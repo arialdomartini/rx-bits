@@ -92,6 +92,7 @@
     <Compile Include="Delegates\AreSimilarWithNamedDelegate.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Delegates\DelegatesTest.cs" />
+    <Compile Include="FunctionalProgramming\Examples\LazyLoading\HeavyClass.cs" />
     <Compile Include="Delegates\StringComparators.cs" />
     <Compile Include="Delegates\Examples\StrategyPattern\StrategyPatternTest.cs" />
     <Compile Include="WithoutRX\StockInfo.cs" />
