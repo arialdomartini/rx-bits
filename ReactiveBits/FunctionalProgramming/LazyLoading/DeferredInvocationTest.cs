@@ -1,61 +1,9 @@
 ﻿using System;
-using System.ComponentModel;
 using FluentAssertions;
 using Xunit;
 
-namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
+namespace ReactiveBits.FunctionalProgramming.LazyLoading
 {
-    public class HeavyClass
-    {
-        // Suppose this class takes a lot of time to be create
-        public string GetAString()
-        {
-            return "foo";
-        }
-    }
-
-    public class LightClassWithoutFunc
-    {
-        internal HeavyClass HeavyClassInstance;
-
-        private HeavyClass HeavyClass => HeavyClassInstance ?? (HeavyClassInstance = new HeavyClass());
-
-        public string SomeMethod()
-        {
-            return HeavyClass.GetAString();
-        }
-     }
-
-    public class LightClassWithFunc
-    {
-        private readonly Func<HeavyClass> _heavyClassFactory;
-
-        public LightClassWithFunc(Func<HeavyClass> heavyClassFactory)
-        {
-            _heavyClassFactory = heavyClassFactory;
-        }
-
-        public string SomeMethod()
-        {
-            return _heavyClassFactory().GetAString();
-        }
-    }
-
-    public class LightClassWithLazy
-    {
-        private readonly Lazy<HeavyClass> _lazyHeavyClass;
-
-        public LightClassWithLazy(Lazy<HeavyClass> lazyHeavyClass)
-        {
-            _lazyHeavyClass = lazyHeavyClass;
-        }
-
-        public string SomeMethod()
-        {
-            return _lazyHeavyClass.Value.GetAString();
-        }
-    }
-
     public class DeferredInvocationTest
     {
         [Fact]
