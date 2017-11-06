@@ -1,21 +1,12 @@
-﻿using FluentAssertions;
+﻿using System;
+using FluentAssertions;
 using Xunit;
 
 namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
 {
-    public static class Global
-    {
-        public static bool HeavyClassCreated = false;
-    }
-
     public class HeavyClass
     {
-        // This class takes a lot of time to be create
-        public HeavyClass()
-        {
-            Global.HeavyClassCreated = true;
-        }
-
+        // Suppose this class takes a lot of time to be create
         public string GetAString()
         {
             return "foo";
@@ -24,15 +15,30 @@ namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
 
     public class LightClassWithoutFunc
     {
-        private HeavyClass _heavyClass;
+        internal HeavyClass HeavyClassInstance;
 
-        private HeavyClass HeavyClass => _heavyClass ?? (_heavyClass = new HeavyClass());
+        private HeavyClass HeavyClass => HeavyClassInstance ?? (HeavyClassInstance = new HeavyClass());
 
         public string SomeMethod()
         {
             return HeavyClass.GetAString();
         }
      }
+
+    public class LightClassWithFunc
+    {
+        private readonly Func<HeavyClass> _heavyClassFactory;
+
+        public LightClassWithFunc(Func<HeavyClass> heavyClassFactory)
+        {
+            _heavyClassFactory = heavyClassFactory;
+        }
+
+        public string SomeMethod()
+        {
+            return _heavyClassFactory().GetAString();
+        }
+    }
 
     public class DeferredInvocationTest
     {
@@ -41,11 +47,31 @@ namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
         {
             var sut = new LightClassWithoutFunc();
 
-            Global.HeavyClassCreated.Should().Be(false);
+            sut.HeavyClassInstance.Should().BeNull();
 
             sut.SomeMethod();
 
-            Global.HeavyClassCreated.Should().Be(true);
+            sut.HeavyClassInstance.Should().NotBeNull();
         }
+
+        [Fact]
+        public void should_defer_the_creation_using_a_func()
+        {
+            var created = false;
+            Func<HeavyClass> heavyClassFactory = () =>
+            {
+                created = true;
+                return new HeavyClass();
+            };
+
+            var sut = new LightClassWithFunc(heavyClassFactory);
+
+            created.Should().Be(false);
+
+            sut.SomeMethod();
+
+            created.Should().Be(true);
+        }
+
     }
 }
