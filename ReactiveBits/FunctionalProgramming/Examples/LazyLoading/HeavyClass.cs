@@ -107,5 +107,43 @@ namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
 
             created.Should().Be(true);
         }
+
+        [Fact]
+        public void factory_based_on_func_is_invoked_each_time()
+        {
+            var count = 0;
+            Func<HeavyClass> heavyClassFactory = () =>
+            {
+                count++;
+                return new HeavyClass();
+            };
+            var sut = new LightClassWithFunc(heavyClassFactory);
+
+            sut.SomeMethod();
+            sut.SomeMethod();
+            sut.SomeMethod();
+
+            count.Should().Be(3);
+        }
+
+
+        [Fact]
+        public void lazy_should_invoke_only_once()
+        {
+            var numberOfInvocations = 0;
+            var lazyHeavyClass = new Lazy<HeavyClass>(() =>
+            {
+                numberOfInvocations++;
+                return new HeavyClass();
+            });
+
+            var sut = new LightClassWithLazy(lazyHeavyClass);
+
+            sut.SomeMethod();
+            sut.SomeMethod();
+            sut.SomeMethod();
+
+            numberOfInvocations.Should().Be(1);
+        }
     }
 }
