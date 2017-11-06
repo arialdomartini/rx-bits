@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using FluentAssertions;
 using Xunit;
 
@@ -40,6 +41,21 @@ namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
         }
     }
 
+    public class LightClassWithLazy
+    {
+        private readonly Lazy<HeavyClass> _lazyHeavyClass;
+
+        public LightClassWithLazy(Lazy<HeavyClass> lazyHeavyClass)
+        {
+            _lazyHeavyClass = lazyHeavyClass;
+        }
+
+        public string SomeMethod()
+        {
+            return _lazyHeavyClass.Value.GetAString();
+        }
+    }
+
     public class DeferredInvocationTest
     {
         [Fact]
@@ -73,5 +89,23 @@ namespace ReactiveBits.FunctionalProgramming.Examples.LazyLoading
             created.Should().Be(true);
         }
 
+        [Fact]
+        public void should_defer_the_creation_using_Lazy()
+        {
+            var created = false;
+            var lazyHeavyClass = new Lazy<HeavyClass>(() =>
+            {
+                created = true;
+                return new HeavyClass();
+            });
+
+            var sut = new LightClassWithLazy(lazyHeavyClass);
+
+            created.Should().Be(false);
+
+            sut.SomeMethod();
+
+            created.Should().Be(true);
+        }
     }
 }
