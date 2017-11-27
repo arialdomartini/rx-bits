@@ -54,6 +54,15 @@ namespace ReactiveBits
         }
     }
 
+    public static class Extensions
+    {
+        public static IDisposable SubscribeString(this CreatingObservables.NumberObservable numberObservable, StringBuilder result)
+        {
+            IObserver<int> observer = new StringObserver(result);
+            return numberObservable.Subscribe(observer);
+        }
+    }
+
     public class NumberObservableTest
     {
         [Fact]
@@ -62,9 +71,8 @@ namespace ReactiveBits
             var observable = new CreatingObservables.NumberObservable(10);
 
             var result = new StringBuilder();
-            var stringObserver = new StringObserver(result);
 
-            using (observable.Subscribe(stringObserver))
+            using (observable.SubscribeString(result))
             {
             }
 
