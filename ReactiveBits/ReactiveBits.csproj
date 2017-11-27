@@ -89,7 +89,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreatingObservables.cs" />
+    <Compile Include="CreatingObservables\Handcrafted\Handcrafted.cs" />
+    <Compile Include="CreatingObservables\Handcrafted\NumberObservable.cs" />
+    <Compile Include="CreatingObservables\Handcrafted\StringObserver.cs" />
     <Compile Include="Delegates\AreSimilarWithNamedDelegate.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Delegates\DelegatesTest.cs" />
