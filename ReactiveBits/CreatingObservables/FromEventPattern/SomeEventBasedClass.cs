@@ -82,7 +82,7 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
 //                handler => sut.Sent += handler, 
 //                handler => sut.Sent -= handler);
 
-            var stream = Observable.FromEventPattern<MyHandlerArgs>(sut, "Sent");
+            var stream = Observable.FromEventPattern<MyHandlerArgs>(sut, nameof(SomeEventBasedClass.Sent));
 
             var sb = new StringBuilder();
             var stringObserver = new StringObserver<string>(sb);
