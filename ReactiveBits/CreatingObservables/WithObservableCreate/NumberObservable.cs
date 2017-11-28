@@ -11,14 +11,33 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
     public class NumberObservableTest
     {
         [Fact]
+        public void creation_can_be_deferred()
+        {
+            var amount = 5;
+            var created = false;
+            var observable = Observable.Defer(() => Observable.Create<string>(observer =>
+            {
+                created = true;
+                for (var i = 0; i < amount; i++)
+                    observer.OnNext(i.ToString());
+                observer.OnCompleted();
+                return Disposable.Empty;
+            }));
+
+            created.Should().Be(false);
+
+            observable.Subscribe(new StringObserver(new StringBuilder()));
+
+            created.Should().Be(true);
+        }
+
+        [Fact]
         public void should_create_an_observable_using_ObservableCreate()
         {
-            var observable = Observable.Create<string>( observer =>
+            var observable = Observable.Create<string>(observer =>
             {
                 for (var i = 0; i < 5; i++)
-                {
                     observer.OnNext(i.ToString());
-                }
                 observer.OnCompleted();
                 return Disposable.Empty;
             });
