@@ -73,5 +73,31 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
             messages[1].Should().Be("Received message 2");
             messages[2].Should().Be("Received message 3");
         }
+
+        [Fact]
+        public void should_create_an_observable_from_EventPattern_using_the_short_form()
+        {
+            var sut = new SomeEventBasedClass();
+//            var stream = Observable.FromEventPattern<MyHandler, MyHandlerArgs>(
+//                handler => sut.Sent += handler, 
+//                handler => sut.Sent -= handler);
+
+            var stream = Observable.FromEventPattern<MyHandlerArgs>(sut, "Sent");
+
+            var sb = new StringBuilder();
+            var stringObserver = new StringObserver<string>(sb);
+            
+            using (var disposable = stream.Select(a => a.EventArgs.SomeField).Subscribe(stringObserver))
+            {
+                sut.Send("message 1");
+                sut.Send("message 2");
+                sut.Send("message 3");
+            }
+
+            var messages = Regex.Split(sb.ToString(), "\r\n");
+            messages[0].Should().Be("Received message 1");
+            messages[1].Should().Be("Received message 2");
+            messages[2].Should().Be("Received message 3");
+        }
     }
 }
