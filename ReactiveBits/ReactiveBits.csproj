@@ -90,6 +90,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CreatingObservables\FromEventPattern\SomeEventBasedClass.cs" />
+    <Compile Include="CreatingObservables\FromEvent\WiFiScanner.cs" />
     <Compile Include="CreatingObservables\Handcrafted\Extensions.cs" />
     <Compile Include="CreatingObservables\Handcrafted\NumberObservableTest.cs" />
     <Compile Include="CreatingObservables\Handcrafted\NumberObservable.cs" />

@@ -58,8 +58,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
                 handler => sut.Sent += handler, 
                 handler => sut.Sent -= handler);
 
-            var sb = new StringBuilder();
-            var stringObserver = new StringObserver<string>(sb);
+            var result = new List<string>();
+
+            var stringObserver = new StringObserver<string>(result);
             
             using (var disposable = stream.Select(a => a.EventArgs.SomeField).Subscribe(stringObserver))
             {
@@ -68,10 +69,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
                 sut.Send("message 3");
             }
 
-            var messages = Regex.Split(sb.ToString(), "\r\n");
-            messages[0].Should().Be("Received message 1");
-            messages[1].Should().Be("Received message 2");
-            messages[2].Should().Be("Received message 3");
+            result[0].Should().Be("Received message 1");
+            result[1].Should().Be("Received message 2");
+            result[2].Should().Be("Received message 3");
         }
 
         [Fact]
@@ -84,8 +84,8 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
 
             var stream = Observable.FromEventPattern<MyHandlerArgs>(sut, nameof(SomeEventBasedClass.Sent));
 
-            var sb = new StringBuilder();
-            var stringObserver = new StringObserver<string>(sb);
+            var result = new List<string>();
+            var stringObserver = new StringObserver<string>(result);
             
             using (var disposable = stream.Select(a => a.EventArgs.SomeField).Subscribe(stringObserver))
             {
@@ -94,10 +94,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
                 sut.Send("message 3");
             }
 
-            var messages = Regex.Split(sb.ToString(), "\r\n");
-            messages[0].Should().Be("Received message 1");
-            messages[1].Should().Be("Received message 2");
-            messages[2].Should().Be("Received message 3");
+            result[0].Should().Be("Received message 1");
+            result[1].Should().Be("Received message 2");
+            result[2].Should().Be("Received message 3");
         }
     }
 }

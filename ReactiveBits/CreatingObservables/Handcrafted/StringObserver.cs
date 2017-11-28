@@ -1,30 +1,31 @@
 using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace ReactiveBits.CreatingObservables.Handcrafted
 {
     public class StringObserver<T> : IObserver<T>
     {
-        private readonly StringBuilder _result;
+        private readonly List<string> _result;
 
-        public StringObserver(StringBuilder result)
+        public StringObserver(List<string> result)
         {
             _result = result;
         }
 
         public void OnNext(T value)
         {
-            _result.AppendLine($"Received {value}");
+            _result.Add($"Received {value}");
         }
 
         public void OnError(Exception error)
         {
-            _result.AppendLine("Got an errore");
+            _result.Add("Got an errore");
         }
 
         public void OnCompleted()
         {
-            _result.AppendLine("Done");
+            _result.Add("Done");
         }
     }
 }

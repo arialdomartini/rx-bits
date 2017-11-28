@@ -1,4 +1,5 @@
-﻿using System.Reactive.Disposables;
+﻿using System.Collections.Generic;
+using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -26,7 +27,7 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
 
             created.Should().Be(false);
 
-            observable.Subscribe(new StringObserver<string>(new StringBuilder()));
+            observable.Subscribe(new StringObserver<string>(new List<string>()));
 
             created.Should().Be(true);
         }
@@ -42,17 +43,15 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
                 return Disposable.Empty;
             });
 
-            var sb = new StringBuilder();
+            var sb = new List<string>();
             observable.Subscribe(new StringObserver<string>(sb));
 
-            var actual = Regex.Split(sb.ToString(), "\r\n");
-
-            actual[0].Should().Be("Received 0");
-            actual[1].Should().Be("Received 1");
-            actual[2].Should().Be("Received 2");
-            actual[3].Should().Be("Received 3");
-            actual[4].Should().Be("Received 4");
-            actual[5].Should().Be("Done");
+            sb[0].Should().Be("Received 0");
+            sb[1].Should().Be("Received 1");
+            sb[2].Should().Be("Received 2");
+            sb[3].Should().Be("Received 3");
+            sb[4].Should().Be("Received 4");
+            sb[5].Should().Be("Done");
         }
     }
 }

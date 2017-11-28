@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.Generic;
+using System.Text;
 using System.Text.RegularExpressions;
 using FluentAssertions;
 using ReactiveBits.CreatingObservables.Handcrafted;
@@ -15,8 +16,8 @@ namespace ReactiveBits.CreatingObservables.UsingObservableBase
 
             var observableConnection = new ObservableConnection(chatConnection);
 
-            var sb = new StringBuilder();
-            var stringObserver = new StringObserver<string>(sb);
+            var result = new List<string>();
+            var stringObserver = new StringObserver<string>(result);
 
             
             using (var subscription = observableConnection.Subscribe(stringObserver))
@@ -26,11 +27,9 @@ namespace ReactiveBits.CreatingObservables.UsingObservableBase
                 chatConnection.Disconnect();
             }
 
-            var actual = Regex.Split(sb.ToString(), "\r\n");
-
-            actual[0].Should().Be("Received Hello");
-            actual[1].Should().Be("Received World");
-            actual[2].Should().Be("Done");
+            result[0].Should().Be("Received Hello");
+            result[1].Should().Be("Received World");
+            result[2].Should().Be("Done");
         }
     }
 }
