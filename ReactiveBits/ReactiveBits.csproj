@@ -89,9 +89,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CreatingObservables\Handcrafted\Handcrafted.cs" />
+    <Compile Include="CreatingObservables\Handcrafted\Extensions.cs" />
+    <Compile Include="CreatingObservables\Handcrafted\NumberObservableTest.cs" />
     <Compile Include="CreatingObservables\Handcrafted\NumberObservable.cs" />
     <Compile Include="CreatingObservables\Handcrafted\StringObserver.cs" />
+    <Compile Include="CreatingObservables\UsingObservableBase\ChatClientTest.cs" />
+    <Compile Include="CreatingObservables\UsingObservableBase\ChatConnection.cs" />
+    <Compile Include="CreatingObservables\UsingObservableBase\IChatConnection.cs" />
+    <Compile Include="CreatingObservables\UsingObservableBase\ObservableConnection.cs" />
     <Compile Include="Delegates\AreSimilarWithNamedDelegate.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Delegates\DelegatesTest.cs" />

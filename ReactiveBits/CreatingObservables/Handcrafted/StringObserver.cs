@@ -3,7 +3,7 @@ using System.Text;
 
 namespace ReactiveBits.CreatingObservables.Handcrafted
 {
-    public class StringObserver : IObserver<int>
+    public class StringObserver : IObserver<string>
     {
         private readonly StringBuilder _result;
 
@@ -12,7 +12,7 @@ namespace ReactiveBits.CreatingObservables.Handcrafted
             _result = result;
         }
 
-        public void OnNext(int value)
+        public void OnNext(string value)
         {
             _result.AppendLine($"Received {value}");
         }

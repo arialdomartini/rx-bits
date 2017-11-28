@@ -7,7 +7,7 @@ namespace ReactiveBits.CreatingObservables.Handcrafted
     {
         public static IDisposable SubscribeString(this NumberObservable numberObservable, StringBuilder result)
         {
-            IObserver<int> observer = new StringObserver(result);
+            var observer = new StringObserver(result);
             return numberObservable.Subscribe(observer);
         }
     }
