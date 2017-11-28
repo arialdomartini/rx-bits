@@ -97,6 +97,7 @@
     <Compile Include="CreatingObservables\UsingObservableBase\ChatConnection.cs" />
     <Compile Include="CreatingObservables\UsingObservableBase\IChatConnection.cs" />
     <Compile Include="CreatingObservables\UsingObservableBase\ObservableConnection.cs" />
+    <Compile Include="CreatingObservables\WithObservableCreate\NumberObservable.cs" />
     <Compile Include="Delegates\AreSimilarWithNamedDelegate.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Delegates\DelegatesTest.cs" />
@@ -128,6 +129,7 @@
   <ItemGroup>
     <Analyzer Include="..\packages\xunit.analyzers.0.7.0\analyzers\dotnet\cs\xunit.analyzers.dll" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

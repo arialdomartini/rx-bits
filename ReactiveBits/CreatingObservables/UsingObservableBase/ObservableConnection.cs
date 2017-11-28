@@ -31,7 +31,6 @@ namespace ReactiveBits.CreatingObservables.UsingObservableBase
                 _chatConnection.Closed -= onCompleted;
                 _chatConnection.Error -= onError;
             });
-
         }
     }
 }
