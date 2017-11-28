@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.Reactive;
 using System.Reactive.Linq;
@@ -59,7 +59,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
                 handler => sut.Sent -= handler);
 
             var sb = new StringBuilder();
-            using (var subscription = stream.Subscribe(new MyHandlerArgsStringObserver(sb)))
+            var stringObserver = new StringObserver<string>(sb);
+            
+            using (var disposable = stream.Select(a => a.EventArgs.SomeField).Subscribe(stringObserver))
             {
                 sut.Send("message 1");
                 sut.Send("message 2");
@@ -67,34 +69,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
             }
 
             var messages = Regex.Split(sb.ToString(), "\r\n");
-            messages[0].Should().Be("message 1");
-            messages[1].Should().Be("message 2");
-            messages[2].Should().Be("message 3");
-        }
-    }
-
-    public class MyHandlerArgsStringObserver : IObserver<EventPattern<MyHandlerArgs>>
-    {
-        private readonly StringBuilder _sb;
-
-        public MyHandlerArgsStringObserver(StringBuilder sb)
-        {
-            _sb = sb;
-        }
-
-        public void OnNext(EventPattern<MyHandlerArgs> value)
-        {
-            _sb.AppendLine(value.EventArgs.SomeField);
-        }
-
-        public void OnError(Exception error)
-        {
-            _sb.AppendLine("Got an error");
-        }
-
-        public void OnCompleted()
-        {
-            _sb.AppendLine("Done");
+            messages[0].Should().Be("Received message 1");
+            messages[1].Should().Be("Received message 2");
+            messages[2].Should().Be("Received message 3");
         }
     }
 }

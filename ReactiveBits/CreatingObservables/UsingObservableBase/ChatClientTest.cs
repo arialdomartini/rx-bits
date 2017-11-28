@@ -16,7 +16,7 @@ namespace ReactiveBits.CreatingObservables.UsingObservableBase
             var observableConnection = new ObservableConnection(chatConnection);
 
             var sb = new StringBuilder();
-            var stringObserver = new StringObserver(sb);
+            var stringObserver = new StringObserver<string>(sb);
 
             
             using (var subscription = observableConnection.Subscribe(stringObserver))

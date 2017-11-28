@@ -26,7 +26,7 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
 
             created.Should().Be(false);
 
-            observable.Subscribe(new StringObserver(new StringBuilder()));
+            observable.Subscribe(new StringObserver<string>(new StringBuilder()));
 
             created.Should().Be(true);
         }
@@ -43,7 +43,7 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
             });
 
             var sb = new StringBuilder();
-            observable.Subscribe(new StringObserver(sb));
+            observable.Subscribe(new StringObserver<string>(sb));
 
             var actual = Regex.Split(sb.ToString(), "\r\n");
 
