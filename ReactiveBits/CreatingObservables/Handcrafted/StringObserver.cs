@@ -15,17 +15,17 @@ namespace ReactiveBits.CreatingObservables.Handcrafted
 
         public void OnNext(T value)
         {
-            _result.Add($"Received {value}");
+            _result.Add($"OnNext({value})");
         }
 
         public void OnError(Exception error)
         {
-            _result.Add("Got an errore");
+            _result.Add("OnError()");
         }
 
         public void OnCompleted()
         {
-            _result.Add("Done");
+            _result.Add("OnCompleted()");
         }
     }
 }

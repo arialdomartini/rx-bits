@@ -46,12 +46,12 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
             var sb = new List<string>();
             observable.Subscribe(new StringObserver<string>(sb));
 
-            sb[0].Should().Be("Received 0");
-            sb[1].Should().Be("Received 1");
-            sb[2].Should().Be("Received 2");
-            sb[3].Should().Be("Received 3");
-            sb[4].Should().Be("Received 4");
-            sb[5].Should().Be("Done");
+            sb[0].Should().Be("OnNext(0)");
+            sb[1].Should().Be("OnNext(1)");
+            sb[2].Should().Be("OnNext(2)");
+            sb[3].Should().Be("OnNext(3)");
+            sb[4].Should().Be("OnNext(4)");
+            sb[5].Should().Be("OnCompleted()");
         }
     }
 }

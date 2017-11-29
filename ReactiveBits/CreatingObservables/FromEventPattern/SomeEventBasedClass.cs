@@ -69,9 +69,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
                 sut.Send("message 3");
             }
 
-            result[0].Should().Be("Received message 1");
-            result[1].Should().Be("Received message 2");
-            result[2].Should().Be("Received message 3");
+            result[0].Should().Be("OnNext(message 1)");
+            result[1].Should().Be("OnNext(message 2)");
+            result[2].Should().Be("OnNext(message 3)");
         }
 
         [Fact]
@@ -94,9 +94,9 @@ namespace ReactiveBits.CreatingObservables.FromEventPattern
                 sut.Send("message 3");
             }
 
-            result[0].Should().Be("Received message 1");
-            result[1].Should().Be("Received message 2");
-            result[2].Should().Be("Received message 3");
+            result[0].Should().Be("OnNext(message 1)");
+            result[1].Should().Be("OnNext(message 2)");
+            result[2].Should().Be("OnNext(message 3)");
         }
     }
 }

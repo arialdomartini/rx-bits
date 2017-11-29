@@ -70,8 +70,8 @@ namespace ReactiveBits.CreatingObservables.FromEvent
                 sut.FindNetwork("456");
             }
 
-            result[0].Should().Be("Received 123");
-            result[1].Should().Be("Received 456");
+            result[0].Should().Be("OnNext(123)");
+            result[1].Should().Be("OnNext(456)");
         }
 
         [Fact]
@@ -115,8 +115,8 @@ namespace ReactiveBits.CreatingObservables.FromEvent
                 sut.FindExtendedNetwork("two", 2);
             }
 
-            sb[0].Should().Be("Received one (1)");
-            sb[1].Should().Be("Received two (2)");
+            sb[0].Should().Be("OnNext(one (1))");
+            sb[1].Should().Be("OnNext(two (2))");
 
         }
 

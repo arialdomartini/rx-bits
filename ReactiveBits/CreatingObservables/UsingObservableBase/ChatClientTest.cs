@@ -27,9 +27,9 @@ namespace ReactiveBits.CreatingObservables.UsingObservableBase
                 chatConnection.Disconnect();
             }
 
-            result[0].Should().Be("Received Hello");
-            result[1].Should().Be("Received World");
-            result[2].Should().Be("Done");
+            result[0].Should().Be("OnNext(Hello)");
+            result[1].Should().Be("OnNext(World)");
+            result[2].Should().Be("OnCompleted()");
         }
     }
 }

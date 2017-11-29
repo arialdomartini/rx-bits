@@ -36,10 +36,10 @@ namespace ReactiveBits.CreatingObservables.FromEnumerables
             var results = new List<string>();
             streamOfInts.Subscribe(new StringObserver<int>(results));
 
-            results[0].Should().Be("Received 1");
-            results[1].Should().Be("Received 2");
-            results[2].Should().Be("Received 3");
-            results[3].Should().Be("Done");
+            results[0].Should().Be("OnNext(1)");
+            results[1].Should().Be("OnNext(2)");
+            results[2].Should().Be("OnNext(3)");
+            results[3].Should().Be("OnCompleted()");
         }
 
         [Fact]
@@ -53,10 +53,10 @@ namespace ReactiveBits.CreatingObservables.FromEnumerables
             var results = new List<string>();
             streamOfInts.Subscribe(new StringObserver<int>(results));
 
-            results[0].Should().Be("Received 1");
-            results[1].Should().Be("Received 2");
-            results[2].Should().Be("Received 3");
-            results[3].Should().Be("Done");
+            results[0].Should().Be("OnNext(1)");
+            results[1].Should().Be("OnNext(2)");
+            results[2].Should().Be("OnNext(3)");
+            results[3].Should().Be("OnCompleted()");
         }
     }
 }
