@@ -39,6 +39,7 @@ namespace ReactiveBits.CreatingObservables.UsingObservableBase
             var chatConnection = new ChatConnection("username", "password");
             var connection = new ObservableConnection(chatConnection);
 
+            // var allMessages = connection.StartWith(oldMessages);
             var allMessages = oldMessages.ToObservable()
                                 .Concat(connection);
 
