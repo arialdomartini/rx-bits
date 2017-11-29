@@ -104,6 +104,7 @@
     <Compile Include="Delegates\AreSimilarWithNamedDelegate.cs" />
     <Compile Include="Delegates\Delegates.cs" />
     <Compile Include="Delegates\DelegatesTest.cs" />
+    <Compile Include="FromObservable\ToOtherStructures.cs" />
     <Compile Include="FunctionalProgramming\AnonymousTypes\AnonymousTypesExamples.cs" />
     <Compile Include="FunctionalProgramming\DeferredExecution\DeferredExecutionExamples.cs" />
     <Compile Include="FunctionalProgramming\DeferredExecution\YieldExamples.cs" />
