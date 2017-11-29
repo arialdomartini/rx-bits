@@ -1,9 +1,5 @@
-﻿using System.Linq;
-using System.Collections.Generic;
-using System.Reactive;
+﻿using System.Collections.Generic;
 using System.Reactive.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
 using FluentAssertions;
 using ReactiveBits.CreatingObservables.Handcrafted;
 using Xunit;

@@ -120,6 +120,5 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
 //            messages[5].Should().Be("giulia");
 //            messages[6].Should().Be("done");
         }
-
     }
 }
