@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reactive;
 using System.Reactive.Disposables;
 using System.Reactive.Linq;
 using System.Text;
@@ -53,5 +56,70 @@ namespace ReactiveBits.CreatingObservables.WithObservableCreate
             sb[4].Should().Be("OnNext(4)");
             sb[5].Should().Be("OnCompleted()");
         }
+
+        [Fact]
+        public void should_receive_errors()
+        {
+            var words = new List<string> {"Mario", "Cioni", "Di", "Gaspare", "Fu", "Giulia"}
+            .Select(w =>
+                {
+                    if (w == "Di") throw new Exception("This should be caught in onError()");
+                    return w;
+                });
+
+            var messages = new List<string>();
+            var observer = new AnonymousObserver<string>(
+                onNext: w => messages.Add(w),
+                onError: (e) => messages.Add("*** I got an error! ***"),
+                onCompleted:() => messages.Add("Done")
+            );
+            using (words.ToObservable().Select(w => w.ToLower()).Subscribe(observer))
+            {
+                
+            }
+
+            messages[0].Should().Be("mario");
+            messages[1].Should().Be("cioni");
+            messages[2].Should().Be("*** I got an error! ***");
+//            messages[3].Should().Be("gaspare");
+//            messages[4].Should().Be("fu");
+//            messages[5].Should().Be("giulia");
+//            messages[6].Should().Be("done");
+        }
+
+        [Fact]
+        public void should_receive_errors_using_a_coruoutine()
+        {
+            IEnumerable<string> returnWords()
+            {
+                yield return "Mario";
+                yield return "Cioni";
+                throw new Exception("This should be caught in onError()");
+                yield return "Gaspare";
+                yield return "Fu";
+                yield return "Giulia";
+            }
+
+
+            var messages = new List<string>();
+            var observer = new AnonymousObserver<string>(
+                onNext: w => messages.Add(w),
+                onError: (e) => messages.Add("*** I got an error! ***"),
+                onCompleted:() => messages.Add("Done")
+            );
+            using (returnWords().Select(w => w.ToLower()).Subscribe(observer))
+            {
+                
+            }
+
+            messages[0].Should().Be("mario");
+            messages[1].Should().Be("cioni");
+            messages[2].Should().Be("*** I got an error! ***");
+//            messages[3].Should().Be("gaspare");
+//            messages[4].Should().Be("fu");
+//            messages[5].Should().Be("giulia");
+//            messages[6].Should().Be("done");
+        }
+
     }
 }
