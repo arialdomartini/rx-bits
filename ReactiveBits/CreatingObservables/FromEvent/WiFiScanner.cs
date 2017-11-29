@@ -12,14 +12,23 @@ namespace ReactiveBits.CreatingObservables.FromEvent
     public class WiFiScanner
     {
         public event NetworkFoundHandler NetworkFound;
+        public event ExtendedNetworkFoundHandler ExtendedNetworkFound;
+
 
         public void FindNetwork(string ssid)
         {
             NetworkFound(ssid);
         }
+
+        public void FindExtendedNetwork(string ssid, int strength)
+        {
+            ExtendedNetworkFound(ssid, strength);
+        }
     }
 
+
     public delegate void NetworkFoundHandler(string ssid);
+    public delegate void ExtendedNetworkFoundHandler(string ssid, int strength);
 
     public class WiFiScannerTest
     {
@@ -44,7 +53,6 @@ namespace ReactiveBits.CreatingObservables.FromEvent
             ssids[2] = "3";
         }
 
-
         [Fact]
         public void should_create_an_observable_using_FromEvent()
         {
@@ -64,6 +72,59 @@ namespace ReactiveBits.CreatingObservables.FromEvent
 
             result[0].Should().Be("Received 123");
             result[1].Should().Be("Received 456");
+        }
+
+        [Fact]
+        public void should_consume_extended_event_in_the_classic_way()
+        {
+            var sut = new WiFiScanner();
+
+            var networks = new List<Info>();
+            ExtendedNetworkFoundHandler sutOnExtendedNetworkFound = (ssid, strength) =>
+            {
+                networks.Add(new Info {Ssid = ssid, Strength = strength});
+            };
+
+            sut.ExtendedNetworkFound += sutOnExtendedNetworkFound;
+
+            sut.FindExtendedNetwork("one", 1);
+            sut.FindExtendedNetwork("two", 2);
+
+            networks[0].ShouldBeEquivalentTo(new Info {Ssid = "one", Strength = 1});
+            networks[1].ShouldBeEquivalentTo(new Info {Ssid = "two", Strength = 2});
+
+            sut.ExtendedNetworkFound -= sutOnExtendedNetworkFound;
+        }
+
+        [Fact]
+        public void should_create_an_extended_observable_using_FromEvent()
+        {
+            var sut = new WiFiScanner();
+
+            var networks = Observable.FromEvent<ExtendedNetworkFoundHandler, Info>(
+                handler => ((ssid, strength) => handler(new Info() {Ssid = ssid, Strength = strength})), 
+                handler => { sut.ExtendedNetworkFound += handler; }, 
+                handler => { sut.ExtendedNetworkFound -= handler; });
+
+            var sb = new List<string>();
+            using (networks
+                .Select(n => $"{n.Ssid} ({n.Strength})")
+                .Subscribe(new StringObserver<string>(sb)))
+            {
+                sut.FindExtendedNetwork("one", 1);
+                sut.FindExtendedNetwork("two", 2);
+            }
+
+            sb[0].Should().Be("Received one (1)");
+            sb[1].Should().Be("Received two (2)");
+
+        }
+
+
+        public class Info
+        {
+            public string Ssid { get; set; }
+            public int Strength { get; set; }
         }
     }
 }
